@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego ahorcado naruto</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
+    <link rel="icon" href="Imagenes/naruto_icono.png">
+
+</head>
+
+<body>
+
+    <header>
+
+        <img src="Imagenes/naruto_logo.png">
+        <h1>Juego del ahorcado Naruto</h1>
+    
+    </header>
+
+    <div class="dive">
+
+        <button id="primero">Iniciar juego</button>
+
+    </div>
+    
+    <canvas id="canvas_guiones"></canvas>
+
+    <canvas id="canvas_horca"></canvas>
+
+    <footer class="dive">
+
+        <a href="https://www.linkedin.com/in/hernanperezfree/" target="_blank">
+
+            <ul>
+
+                <img src="imagenes/linkedin_icono.png" style="width: 20%;
+                padding: 0 30px;">
+            </ul>
+        </a>
+
+        <a href="https://github.com/felipoeroek" target="_blank">
+
+            <ul>
+
+                <img src="imagenes/github_icono.png">
+            </ul>
+        </a>
+        <p>Hernán Felipe Pérez Díaz</p>
+        
+    </footer>
+
+    <!--scripts librerias-->
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!--Scripts-->
+
+    <script>
+
+    //Variables
+        var divisor = document.getElementsByClassName('dive');
+        
+        var traer = document.querySelector("#canvas_guiones");
+        var pincel = traer.getContext("2d");
+        var loco = 50;
+        var acumular = 1;
+        var mayusculas = ["OSO", "ADIOS", "MAGICO"];
+        var almacenarMayusculas = [mayusculas[Math.floor(Math.random() * mayusculas.length)]];
+        var soloMayusculas = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+        var sumaHorizontalResponsive = 30;
+        var almacenarLetrasIncorrectas = ['mensaje'];
+        var sumaHorizontalLetrasIncorrectas = 30;
+        var traerCanvasHorca = document.querySelector('#canvas_horca');
+        var pincelHorca = traerCanvasHorca.getContext('2d');
+        var turnos = 0;
+        var verificar = [];
+
+    //hasta aqui variables globales
+
+    //Funciones
+
+        function mostrarGuionesPalabraSecreta(){
+
+            for(var suma = 50; acumular <= almacenarMayusculas[0].length; suma += 50){
+
+            if(suma <= 250){
+                
+                pincel.fillStyle = "black";
+                pincel.beginPath();
+                pincel.moveTo(suma , 20);
+                pincel.quadraticCurveTo( suma + 5, 23, suma, 25);
+                pincel.lineTo(suma - 30, 25);
+                pincel.quadraticCurveTo(suma - 35, 23, suma - 30, 20);
+                pincel.fill();
+            }
+            
+            else{
+                
+                pincel.fillStyle = "black";
+                pincel.beginPath();
+                pincel.moveTo(loco , 60);
+                pincel.quadraticCurveTo( loco + 5, 63, loco, 65);
+                pincel.lineTo(loco - 30, 65);
+                pincel.quadraticCurveTo(loco - 35, 63, loco - 30, 60);
+                pincel.fill();
+                
+                loco += 50;
+            }
+            
+            acumular ++;
+
+            }
+            
+            acumular = 1;
+        }
+
+        function teclaLetra(evento){
+        
+            var ciertoFalso = false;
+
+            for(var cumplir = 0; cumplir <= 27; cumplir++){
+
+                if(evento.key == soloMayusculas[cumplir]){
+
+                    ciertoFalso = true;
+                }
+            }
+            
+            
+            if(ciertoFalso == false){
+
+                Swal.fire({
+
+                    toast: true,
+                    title: "Solo letras mayúsculas",
+                    icon: "error",
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+            }
+
+            if(ciertoFalso == true){
+
+                verificarLetra(evento);
+            }
+        }
+
+        function verificarLetra(evento){
+
+            var sumaHorizontal = 30;
+            var comprobar = false;
+
+            for(var acumularDos = 0; acumularDos < almacenarMayusculas[0].length; acumularDos++){
+
+                if(evento.key == almacenarMayusculas[0].charAt(acumularDos)){
+
+                    comprobar = true;
+                    verificar.push(evento.key);
+                    console.log(verificar);
+
+                    if(sumaHorizontal >= 275){
+
+                        dibujarLetraCorrecta(almacenarMayusculas[0].charAt(acumularDos), sumaHorizontalResponsive, 55);
+                        sumaHorizontalResponsive += 49;
+                    }
+
+                    else{
+
+                        dibujarLetraCorrecta(almacenarMayusculas[0].charAt(acumularDos), sumaHorizontal, 15);
+                    }
+                    
+                }
+
+                sumaHorizontal += 49;
+            }
+
+            verificarGanador();
+
+            if(comprobar == false){
+
+                for(var letraIncorrectaRepetida = 0; letraIncorrectaRepetida < almacenarLetrasIncorrectas.length; letraIncorrectaRepetida++){
+
+                    if(evento.key == almacenarLetrasIncorrectas[letraIncorrectaRepetida]){
+
+                        comprobar = true;
+                    }
+                }
+            }
+
+            if(comprobar == false && turnos < 5){
+
+                dibujarLetraIncorrecta(evento, sumaHorizontalLetrasIncorrectas);
+                sumaHorizontalLetrasIncorrectas += 49;
+                turnos += 1;
+                dibujarHorca();
+            }
+
+            if(turnos == 5){
+
+                finDelJuego();
+                alert('perdistes, aceptar para volver a empezar');
+            }
+
+        }
+
+        function dibujarLetraCorrecta(almacenarMayusculas, variableSuma, altura){
+
+            pincel.fillStyle = "white";
+            pincel.font = "20px Arial";
+            pincel.fillText(almacenarMayusculas, variableSuma, altura);
+        }
+
+        function dibujarLetraIncorrecta(evento, sumaHorizontal){
+
+            almacenarLetrasIncorrectas.push(evento.key);
+            pincel.fillStyle = "white";
+            pincel.font = "20px Arial";
+            pincel.fillText(evento.key, sumaHorizontal, 140);
+        }
+
+        function dibujarHorca(){
+
+            //dibujo horca
+
+            if(turnos == 1){
+                pincelHorca.fillStyle = "white";
+                pincelHorca.fillRect(130,50,5,93);
+                pincelHorca.fillRect(90,140,83,4);
+                pincelHorca.fillRect(130,50,66,3);
+                pincelHorca.fillRect(196,50,4,20);
+            }
+
+            //dibujo cabeza
+
+            if(turnos == 2){
+                pincelHorca.strokeStyle = "white";
+                pincelHorca.arc(198, 76, 7, 0, 2*3.14);
+                pincelHorca.stroke();
+            }
+
+            //dibujo tronco
+
+            if(turnos == 3){
+                pincelHorca.fillStyle = "white";
+                pincelHorca.beginPath();
+                pincelHorca.fillRect(196.5,83.5,3,15);
+                pincelHorca.fill();
+            }
+
+            if(turnos == 4){
+                //dibujar pierna izquierda
+                pincelHorca.fillStyle = "white";
+                pincelHorca.beginPath();
+                pincelHorca.moveTo(200,99);
+                pincelHorca.lineTo(185,115);
+                pincelHorca.lineTo(180,115);
+                pincelHorca.lineTo(196,99);
+                pincelHorca.fill();
+
+                //dibujar pierna derecha
+                pincelHorca.fillStyle = "white";
+                pincelHorca.beginPath();
+                pincelHorca.moveTo(198,99);
+                pincelHorca.lineTo(210,115);
+                pincelHorca.lineTo(215,115);
+                pincelHorca.lineTo(200,99);
+                pincelHorca.fill();
+            }
+
+            if(turnos == 5){
+                //dibujar brazo izquierdo
+                pincelHorca.fillStyle = "white";
+                pincelHorca.beginPath();
+                pincelHorca.moveTo(200,82.5);
+                pincelHorca.lineTo(185,90);
+                pincelHorca.lineTo(175,90);
+                pincelHorca.lineTo(196,82.5);
+                pincelHorca.fill();
+
+                //dibujar brazo derecho y texto perdedor
+                pincelHorca.fillStyle = "white";
+                pincelHorca.beginPath();
+                pincelHorca.moveTo(198,82.5);
+                pincelHorca.lineTo(210,90);
+                pincelHorca.lineTo(220,90);
+                pincelHorca.lineTo(200,82.5);
+                pincelHorca.fill();
+            }
+        }
+
+        function finDelJuego(){
+
+            dibujarHorca();
+            location.reload();    
+        }
+
+        function verificarGanador(){
+
+            if(verificar.length == almacenarMayusculas[0].length){
+
+                pincelHorca.fillStyle = "green";
+                pincelHorca.font = "9.3px Arial";
+                pincelHorca.fillText("¡FELICIDADES GANASTES!", 5, 120);
+                alert("¡Ganaste, felicidades!. Aceptar para volver al menú");
+                location.reload();
+            }
+        }
+
+        function iniciarJuego(){
+
+            Swal.fire({
+
+                title: "Bienvenido",
+                text: "Por: Hernán Felipe Pérez Díaz",
+                icon: "success",
+                width: "70%",
+                padding: "10rem",
+            });
+            for(var claseDivisor = 0; claseDivisor < 2; claseDivisor++){
+
+                divisor[claseDivisor].style.display = 'none';    
+            }
+            mostrarGuionesPalabraSecreta();
+        }
+
+    //Hasta aqui funciones
+
+        console.log(almacenarMayusculas);
+        var iniciar = document.getElementById('primero');
+        iniciar.onclick = iniciarJuego;
+        document.onkeyup = teclaLetra;
+
+    </script> 
+
+</body>
+
+</html>
