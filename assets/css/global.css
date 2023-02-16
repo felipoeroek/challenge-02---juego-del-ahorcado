@@ -1,0 +1,14 @@
+:root {
+
+    --fuente: 'Anton', sans-serif;
+}
+
+
+/* globales */
+
+body {
+
+    font-family: var(--fuente);
+    background: url(../../Imagenes/naruto_fondo_principal.jpg) no-repeat center center;
+    background-size: 100% 100%;
+}

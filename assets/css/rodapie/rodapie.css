@@ -1,0 +1,38 @@
+/* Estilo footer */
+
+.rodapie {
+
+    display: flex;
+    flex-direction: column;
+    margin: 10rem 0;
+    opacity: 0.7;
+}
+
+.rodapie__enlace__lista {
+
+    text-align: center;
+}
+
+.rodapie__enlace__imagen {
+
+    width: 4%;
+    vertical-align: middle;
+    padding: 30px 50px;
+}
+
+.rodapie__texto {
+
+    text-align: center;
+}
+
+/*RESPONSIVE*/
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (min-width: 0px) and (max-width: 600px) {
+
+    .rodapie {
+
+        margin-top: 2rem;
+        margin-bottom: 23rem;
+    }
+}

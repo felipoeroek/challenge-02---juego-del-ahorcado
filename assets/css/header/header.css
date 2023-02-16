@@ -1,0 +1,48 @@
+/* Estilos header */
+
+.header{
+
+    align-items: center;
+    display: flex;
+    margin: 0 4rem;
+}
+
+.header__imagen{
+
+    width: 15%;
+}
+
+.header__titulo{
+
+    text-align: center;
+    font-size: 2rem;
+    width: 70%;
+}
+
+/*RESPONSIVE*/
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (min-width: 0px) and (max-width: 600px) {
+
+    .header {
+
+        flex-direction: column;
+        height: 300px;
+        justify-content: space-around;
+        margin: 0 2rem;
+    }
+
+    .header__imagen  {
+
+        width: 60%;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px to 992px) */
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+
+    .header__imagen {
+
+        width: 17%;
+    }
+}

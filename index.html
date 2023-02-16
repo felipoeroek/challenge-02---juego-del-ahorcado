@@ -7,51 +7,59 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego ahorcado naruto</title>
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
     <link rel="icon" href="Imagenes/naruto_icono.png">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/header/header.css">
+    <link rel="stylesheet" href="assets/css/div.boton/contenedor-boton.css">
+    <link rel="stylesheet" href="assets/css/canvas/canvas.css">
+    <link rel="stylesheet" href="assets/css/rodapie/rodapie.css">
 
 </head>
 
 <body>
 
-    <header>
+    <header class="header">
 
-        <img src="Imagenes/naruto_logo.png">
-        <h1>Juego del ahorcado Naruto</h1>
+        <img src="Imagenes/naruto_logo.png" class="header__imagen">
+        <h1 class="header__titulo">Juego del ahorcado Naruto</h1>
     
     </header>
 
-    <div class="dive">
+    <div class="dive contenedor-boton">
 
-        <button id="primero">Iniciar juego</button>
+        <button id="primero" class="contenedor-boton__boton">Iniciar juego</button>
 
     </div>
     
-    <canvas id="canvas_guiones"></canvas>
+    <canvas id="canvas_guiones" class="canvas"></canvas>
 
-    <canvas id="canvas_horca"></canvas>
+    <canvas id="canvas_horca" class="canvas canvas-horca"></canvas>
 
-    <footer class="dive">
+    <footer class="dive rodapie">
 
-        <a href="https://www.linkedin.com/in/hernanperezfree/" target="_blank">
+        <a href="https://www.linkedin.com/in/hernanperezfree/" target="_blank" class="rodapie__enlace">
 
-            <ul>
+            <ul class="rodapie__enlace__lista">
 
-                <img src="Imagenes/linkedin_icono.png" style="width: 20%;
-                padding: 0 30px;">
+                <img src="Imagenes/linkedin_icono.png" style="width: 7%;
+                padding: 0 30px;" class="rodapie__enlace__imagen">
+
             </ul>
+
         </a>
 
-        <a href="https://github.com/felipoeroek" target="_blank">
+        <a href="https://github.com/felipoeroek" target="_blank" class="rodapie__enlace">
 
-            <ul>
+            <ul class="rodapie__enlace__lista">
 
-                <img src="Imagenes/github_icono.png">
+                <img src="Imagenes/github_icono.png" class="rodapie__enlace__imagen">
+
             </ul>
+
         </a>
-        <p>Hernán Felipe Pérez Díaz</p>
+        <p class="rodapie__texto">Hernán Felipe Pérez Díaz</p>
         
     </footer>
 
@@ -80,6 +88,7 @@
         var pincelHorca = traerCanvasHorca.getContext('2d');
         var turnos = 0;
         var verificar = [];
+        var body = document.querySelector('body');
 
     //hasta aqui variables globales
 
@@ -325,8 +334,9 @@
             });
             for(var claseDivisor = 0; claseDivisor < 2; claseDivisor++){
 
-                divisor[claseDivisor].style.display = 'none';    
+                divisor[claseDivisor].style.display = 'none';
             }
+            body.style.background = '#fcba21';
             mostrarGuionesPalabraSecreta();
         }
 
